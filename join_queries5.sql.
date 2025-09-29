@@ -1,0 +1,54 @@
+-- SQL DEVELOPER INTERNSHIP - TASK 5
+-- Objective: Learn to combine data from multiple tables.
+
+USE ecommerce_db_task5;
+
+-- Query 1: INNER JOIN
+-- Question: Show me only the customers who have placed an order.
+-- This will only return rows where a customer ID exists in BOTH tables. Notice Diana (ID 4) is missing.
+SELECT
+    C.FirstName,
+    O.OrderID,
+    O.TotalAmount
+FROM Customers AS C
+INNER JOIN Orders AS O ON C.CustomerID = O.CustomerID;
+
+-- Query 2: LEFT JOIN
+-- Question: Show me ALL customers, and if they have an order, show that too.
+-- This returns all rows from the LEFT table (Customers), and matching rows from the RIGHT table (Orders).
+-- Notice Diana is now included, but her order details are NULL.
+SELECT
+    C.FirstName,
+    O.OrderID,
+    O.TotalAmount
+FROM Customers AS C
+LEFT JOIN Orders AS O ON C.CustomerID = O.CustomerID;
+
+-- Query 3: RIGHT JOIN
+-- Question: Show me ALL orders, and the customer who placed them.
+-- This returns all rows from the RIGHT table (Orders), and matching rows from the LEFT table (Customers).
+-- In this specific dataset, the result looks the same as the INNER JOIN because every order has a customer.
+SELECT
+    C.FirstName,
+    O.OrderID,
+    O.TotalAmount
+FROM Customers AS C
+RIGHT JOIN Orders AS O ON C.CustomerID = O.CustomerID;
+
+-- Query 4: FULL OUTER JOIN (Simulated in MySQL)
+-- Question: Show me every customer and every order, matching them up where possible.
+-- MySQL does not have a FULL OUTER JOIN keyword. We simulate it by combining a LEFT JOIN and a RIGHT JOIN with UNION.
+-- This ensures that everyone, including Diana who has no orders, is in the final list.
+SELECT
+    C.FirstName,
+    O.OrderID,
+    O.TotalAmount
+FROM Customers AS C
+LEFT JOIN Orders AS O ON C.CustomerID = O.CustomerID
+UNION
+SELECT
+    C.FirstName,
+    O.OrderID,
+    O.TotalAmount
+FROM Customers AS C
+RIGHT JOIN Orders AS O ON C.CustomerID = O.CustomerID;
